@@ -5,15 +5,15 @@ module i_mem
 
         input logic r_type,
 
-        input logic i_type, // fsmfpsfpsdmdspsmfp[agpowej[PPKE
+        input logic i_type,  // For pc generation from control
 
-        input logic s_type,
+        input logic s_type,  // For pc generation from control
 
-        input logic sb_type,
+        input logic sb_type,  // For pc generation from control
 
-        input logic u_type,
+        input logic u_type,  // For pc generation from control
 
-        input logic uj_type,
+        input logic uj_type,  // For instruction generation from control
 
         input logic [31:0]imm,
 
@@ -55,9 +55,9 @@ module i_mem
         
     end
 
-    // assign instr = ins_m [pci[21:2]];
+     assign instr = ins_m [pci[21:2]];
 
-    // assign iop_c = instr [6:0];
+     assign iop_c = instr [6:0];
 
     // assign ird_r1 = instr [19:15];
 
@@ -71,7 +71,6 @@ module i_mem
 
     if (r_type == 1'b1)begin
 
-    iop_c = instr [6:0];
 
     ird_r1 = instr [19:15];
 
@@ -85,9 +84,7 @@ module i_mem
 
     end
     
-    if (i_type == 1'b1)begin
-
-        iop_c = instr [6:0];
+    else if (i_type == 1'b1)begin
 
         imm = instr [31:20];
 
@@ -101,9 +98,8 @@ module i_mem
 
     end
 
-    if (s_type == 1'b1)begin
+    else if (s_type == 1'b1)begin
 
-        iop_c = instr [6:0];
        
         ird_r1 = instr [19:15];
 
@@ -111,25 +107,25 @@ module i_mem
 
         ifun3 = instr [14:12];
 
-        imm = instr [31:25];
+        imm = {instr [31:25],instr [11:7]};
 
     end
 
-    if (sb_type == 1'b1)begin
+    else if (sb_type == 1'b1)begin
 
-        iop_c = instr [6:0];
-
-
-    end
-
-    if (u_type == 1'b1)begin
-
-        iop_c = instr [6:0];
 
 
     end
 
-    if (uj_type == 1'b1)begin
+    else if (u_type == 1'b1)begin
+
+        
+
+        imm = {instr[:8],1'b0};
+
+    end
+
+    else if (uj_type == 1'b1)begin
 
         iop_c = instr [6:0];
 

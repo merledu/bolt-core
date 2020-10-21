@@ -1,10 +1,10 @@
 module ifu(
     
-    input logic i_typej, // fsmfpsfpsdmdspsmfp[agpowej[PPKE
+    input logic i_typej, // For pc generation from control
 
-    input logic sb_type,
+    input logic sb_type, // For pc generation from control
 
-    input logic uj_type,
+    input logic uj_type, // For pc generation from control
 
     input logic iop_a,
 
