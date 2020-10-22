@@ -32,13 +32,13 @@ module ram(
             
         end
 
-        if (rmem_wr == 1'b1 && rmem_rd == 1'b0 && rst_enm == 1'b0)begin
+        if (rmem_wr == 1'b1 && rst_enm == 1'b0)begin
             
             mem[rop_b] <= rop_a;
 
         end
 
-        if (rmem_wr == 1'b0 && rmem_rd == 1'b1 && rst_enm == 1'b0)begin
+        if (rst_enm == 1'b0)begin
             
             d_out <= mem[rop_b];
 

@@ -31,17 +31,17 @@ module control(
 
     // output logic [2:0] cnpc_select// control, next PC select
 
-    output logic i_type; // FOR ifu and i_mem
+    output logic i_type, // FOR ifu and i_mem
 
-    output logic r_type;
+    output logic r_type,
 
-    output logic s_type;
+    output logic s_type,
 
-    output logic sb_type;
+    output logic sb_type,
 
-    output logic u_type;
+    output logic u_type,
 
-    output logic uj_type;
+    output logic uj_type
 );
 
     // logic i_type;
@@ -56,17 +56,17 @@ module control(
 
     // logic uj_type;
 
-    local parameter // OPCODES decleration
+    localparam // OPCODES decleration
 
                 R_TYPE = 7'b0110011 ,// (add, sub, sll, slt, sltu, xor, srl, sra, or, and)
 
-                //R_TYPEW = 7'b0111011 ,// (addw, subw, sllw, srlw, sraw)
+                R_TYPEW = 7'b0111011 ,// (addw, subw, sllw, srlw, sraw)
 
                 I_TYPEL = 7'b0000011 ,// (lb, lh, ld, lw, lbu, lhu, lwu) LOAD
 
                 I_TYPE = 7'b0010011 ,// (addi, slli, slti, sltiu, xori, srli, srai, ori, andi) IMMEDIATE
 
-               //I_TYPEW = 7'b0011011 ,// (addiw, slliw, srliw, sraiw) IMMEDIATE WORD
+                I_TYPEW = 7'b0011011 ,// (addiw, slliw, srliw, sraiw) IMMEDIATE WORD
 
                 I_TYPEJ = 7'b1100111 ,// (jalr)
 
@@ -84,7 +84,7 @@ module control(
                         | (op_cc == I_TYPEJ) | (op_cc == I_TYPEL) | (op_cc == U_TYPE) | (op_cc == UJ_TYPE)
                       ) ? 1'b1 : 1'b0 ;
 
-    assign cop_a = ( (op_cc == R_TYPE) | (op_cc == R_TYPEW) | (op_cc == I_TYPE) | (op_cc == I_TYPEW) | (op_cc == )I_TYPEJ
+    assign cop_a = ( (op_cc == R_TYPE) | (op_cc == R_TYPEW) | (op_cc == I_TYPE) | (op_cc == I_TYPEW) | (op_cc == I_TYPEJ)
                         | (op_cc == I_TYPEL) | (op_cc == SB_TYPE)
                     ) ? 1'b1 : 1'b0 ;
 
@@ -99,17 +99,14 @@ module control(
 
     assign cbr = (op_cc == SB_TYPE) && (calu_br == 1'b1) ? 1'b1 : 1'b0 ;
 
+    assign i_type = ( (op_cc == I_TYPE) | (op_cc == I_TYPEE) | (op_cc == I_TYPEJ) | (op_cc == I_TYPEL)
+                     | (op_cc == I_TYPEW) ) ? 1'b1 : 1'b0 ; 
 
-    assign i_type = ( (op_cc == I_TYPE) | ( (op_cc == I_TYPEE) | ( (op_cc == I_TYPEJ) | ( (op_cc == I_TYPEL)
-                     | ( (op_cc == I_TYPEW) ) ? 1'b1 : 1'b0 ; 
-
-    assign r_type = ( (op_cc == R_TYPE) | ( (op_cc == R_TYPEW) ) ? 1'b1 : 1'b0 ;
+    assign r_type = ( (op_cc == R_TYPE) | (op_cc == R_TYPEW) ) ? 1'b1 : 1'b0 ;
 
     assign s_type = (op_cc == S_TYPE) ? 1'b1 : 1'b0 ;
 
     assign sb_type = (op_cc == SB_TYPE) ? 1'b1 : 1'b0 ;
-
-    assign s_type = (op_cc == S_TYPE) ? 1'b1 : 1'b0 ;
 
     assign u_type = (op_cc == U_TYPE) ? 1'b1 : 1'b0 ;
 
@@ -203,7 +200,7 @@ module control(
 
                        ((op_cc == 7'h67) && (fun3_c == 3'h0)) ? 6'd39 :  // jalr
 
-                       ((op_cc == 7'h6F)) ? 6'd40 :  6'd0 // jal
+                       ((op_cc == 7'h6F)) ? 6'd40 : 6'd0 ; // jal
 
 
 
@@ -213,8 +210,8 @@ module control(
 
 
 
-                       ((op_cc==)&& (fun3_c))? :
-                       ((ex))? :
+                    //    ((op_cc==)&& (fun3_c))? :
+                    //    ((ex))? :
     
 
 //    assign creg_wr = (op_cc == R_TYPE | R_TYPEW | I_TYPE)
